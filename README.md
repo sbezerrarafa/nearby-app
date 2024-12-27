@@ -18,7 +18,7 @@ Nearby app
 
 <br>
 
-![]([./.github/cover.png](https://github.com/vandodev/nlw-near-by/raw/main/.github/cover.png))
+![](https://raw.githubusercontent.com/vandodev/nlw-near-by/main/.github/cover.png)
 
 ## 🚀 Tecnologias
 
