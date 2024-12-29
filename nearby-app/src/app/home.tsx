@@ -26,6 +26,13 @@ const Home = () => {
   const [categories, setCategories] = useState<CategoriesProps>([]);
   const [category, setCategory] = useState('');
   const [markets, setMarkets] = useState<MarketProps[]>([]);
+  const [currentLocation, setCurrentLocation] = useState({
+    latitude: -23.561187293883442,
+    longitude: -46.656451388116494,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  });
+  const [key, setKey] = useState(0);
 
   async function fetchCategories() {
     try {
@@ -73,6 +80,18 @@ const Home = () => {
     fetchMarkets();
   }, [category]); //aqui entendi um bom conceito de quando usar dependencia, ele vai ser somente executado quando tiver a categoria
 
+  useEffect(() => {
+    setTimeout(() => {
+      setCurrentLocation({
+        latitude: -23.564187293883442,
+        longitude: -46.653451388116494,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+      setKey((prevKey) => prevKey + 1);
+    }, 3000);
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#cecece' }}>
       <Categories
@@ -80,21 +99,10 @@ const Home = () => {
         data={categories}
         selected={category}
       />
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}
-      >
+      <MapView key={key} style={{ flex: 1 }} initialRegion={currentLocation}>
         <Marker
           identifier="current"
-          coordinate={{
-            latitude: currentLocation.latitude,
-            longitude: currentLocation.longitude,
-          }}
+          coordinate={currentLocation}
           image={require('@/assets/location.png')}
         />
         {markets.map((item) => (
@@ -104,8 +112,17 @@ const Home = () => {
             coordinate={{ latitude: item.latitude, longitude: item.longitude }}
             image={require('@/assets/pin.png')}
           >
-            <Callout onPress={() => router.navigate(`/market/${item.id}`)}>
-              <View>
+            <Callout
+              style={{ zIndex: 3 }}
+              onPress={() => router.navigate(`/market/${item.id}`)}
+            >
+              <View
+                style={{
+                  padding: 10,
+                  backgroundColor: 'white', // Certifique-se de que o fundo seja visível
+                  borderRadius: 8,
+                }}
+              >
                 <Text
                   style={{
                     fontSize: 14,
@@ -113,7 +130,7 @@ const Home = () => {
                     fontFamily: fontFamily.medium,
                   }}
                 >
-                  aqui é legal
+                  {item.name || 'Nome não disponível'}
                 </Text>
 
                 <Text
@@ -123,8 +140,12 @@ const Home = () => {
                     fontFamily: fontFamily.regular,
                   }}
                 >
-                  {item.address}
+                  {item.address || 'Endereço não disponível'}
                 </Text>
+                <Text>dasdasdasdasdasdasdasdasdasdasdasd</Text>
+                <View
+                  style={{ backgroundColor: 'red', width: 321, height: 3321 }}
+                ></View>
               </View>
             </Callout>
           </Marker>
