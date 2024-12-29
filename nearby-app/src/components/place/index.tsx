@@ -22,7 +22,7 @@ export const Place = ({ data, ...rest }: Props) => {
       <S.Image source={{ uri: data.cover }} />
       <S.Content>
         <S.Name>{data.name}</S.Name>
-        <S.Description>{data.description}</S.Description>
+        <S.Description numberOfLines={2}>{data.description}</S.Description>
         <S.Footer>
           <IconTicket size={16} color={colors.red.base} />
           <S.Tickets>{data.cupons} cupons disponíveis</S.Tickets>
